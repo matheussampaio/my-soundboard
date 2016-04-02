@@ -1,0 +1,45 @@
+<div class="">
+  <label>Action</label>
+  <select class="" name="action" ng-model="$ctrl.data.action">
+    <option value="play">Play</option>
+    <option value="pause">Pause</option>
+    <option value="wait">Wait</option>
+    <option value="move">Move</option>
+    <option value="stop">Stop</option>
+  </select>
+</div>
+
+<h4>Play Options</h4>
+<div class="">
+  <label>Music</label>
+  <select class="" name="music" ng-model="$ctrl.data.music">
+    <option value="http://www.noiseaddicts.com/samples_1w72b820/4940.mp3">http://www.noiseaddicts.com/samples_1w72b820/4940.mp3</option>
+    <option value="http://www.noiseaddicts.com/samples_1w72b820/2240.mp3">http://www.noiseaddicts.com/samples_1w72b820/2240.mp3</option>
+    <option value="http://www.noiseaddicts.com/samples_1w72b820/3733.mp3">http://www.noiseaddicts.com/samples_1w72b820/3733.mp3</option>
+  </select>
+  <input type="checkbox" name="loop" ng-model="$ctrl.data.loop"> Loop
+</div>
+
+<h4>Pause Options</h4>
+<div class="">
+  <label>Indexes</label>
+  <input type="text" name="indexes" ng-model="$ctrl.data.indexes">
+</div>
+
+<h4>Wait Options</h4>
+<div class="">
+  <label>Milliseconds</label>
+  <input type="text" name="milliseconds" ng-model="$ctrl.data.milliseconds">
+</div>
+
+<h4>Move Options</h4>
+<div class="">
+  <label>Index</label>
+  <input type="text" name="index" ng-model="$ctrl.data.index">
+
+  <label>Times</label>
+  <input type="text" name="times" ng-model="$ctrl.data.times">
+</div>
+
+<button type="button" ng-click="$ctrl.addAction()">Add</button>
+<button type="button" ng-click="$ctrl.iterate()">Iterate</button>
