@@ -47,8 +47,10 @@
       });
     }
 
-    function unregister({ type, id }) {
-      service.hotkeys = service.hotkeys.filter(h => h.id === id && h.type === type);
+    function unregister({ id }) {
+      service.hotkeys = service.hotkeys.filter(h => {
+        return h.id !== id
+      });
     }
 
     function targetKeyPressed(event, key) {

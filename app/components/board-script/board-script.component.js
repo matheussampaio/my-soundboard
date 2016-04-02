@@ -34,20 +34,26 @@
     ///////////////
 
     function activate() {
+      register();
+    }
+
+    function register() {
       if (vm.script.key && !vm.script.disabled) {
         HotkeysService.register({
-          type: 'audio',
+          type: 'script',
           id: vm.script._id,
           hotkey: vm.script.key,
           play,
           stop
         });
-
-      } else {
-        // BoardAudiosService.unregister({
-        //   audio: vm.script
-        // });
       }
+    }
+
+    function unregister() {
+      HotkeysService.unregister({
+        type: 'script',
+        id: vm.script._id
+      });
     }
 
     function edit() {
@@ -77,7 +83,9 @@
         }, vm.script);
 
       $mdToast.show($mdToast.simple().textContent('Script Saved!'));
-      // activate();
+
+      unregister();
+      register();
       closeDialog();
     }
 

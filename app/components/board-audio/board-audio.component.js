@@ -34,6 +34,10 @@
     ///////////////
 
     function activate() {
+      register();
+    }
+
+    function register() {
       if (vm.audio.key && !vm.audio.disabled) {
         HotkeysService.register({
           type: 'audio',
@@ -42,12 +46,14 @@
           play,
           stop
         });
-
-      } else {
-        // HotkeysService.unregister({
-        //   audio: vm.audio
-        // });
       }
+    }
+
+    function unregister() {
+      HotkeysService.unregister({
+        type: 'audio',
+        id: vm.audio._id
+      });
     }
 
     function edit() {
@@ -66,7 +72,8 @@
           audioId: vm.audio._id
         }, vm.audio);
 
-      activate();
+      unregister();
+      register();
     }
 
     function cancel() {
