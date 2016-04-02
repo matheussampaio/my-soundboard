@@ -1,1 +1,6 @@
-Home
+<div ng-if="$ctrl.user.data">
+  <dashboard></dashboard>
+</div>
+<div ng-if="!$ctrl.user.data">
+  Home
+</div>
