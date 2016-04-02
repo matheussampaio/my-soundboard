@@ -72,18 +72,11 @@
     function play({ music, loop }) {
       $log.debug(`play music "${music}" loop: ${loop}`);
 
-      if (service.actions[service.nextIndex].audioElements === undefined) {
-        service.actions[service.nextIndex].audioElements = [];
-      }
+      const audio = new Audio(music);
+      audio.loop = loop;
+      audio.play();
 
-      music.forEach((m) => {
-        const audio = new Audio(m);
-        audio.loop = loop;
-        audio.play();
-
-        service.actions[service.nextIndex].audioElements.push(audio);
-      });
-
+      service.actions[service.nextIndex].audioElement = audio;
       service.nextIndex++;
       return Promise.resolve();
     }
@@ -124,9 +117,8 @@
       $log.debug('pause musics');
 
       indexes.forEach((index) => {
-        const action = service.actions[index];
-
-        removeAudioElement(action);
+        service.actions[index].audioElement.pause();
+        delete service.actions[index].audioElement;
       });
 
       service.nextIndex++;
@@ -137,20 +129,11 @@
       $log.debug('stop script');
 
       service.actions.forEach((action) => {
-        if (action.type === 'play') {
-          removeAudioElement(action);
-        }
+        action.audioElement.pause();
+        delete action.audioElement;
       });
 
       return Promise.reject();
-    }
-
-    function removeAudioElement({ audioElements }) {
-      audioElements.forEach((element) => {
-        element.pause();
-      });
-
-      audioElements = [];
     }
   }
 

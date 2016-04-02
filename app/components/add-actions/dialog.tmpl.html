@@ -1,0 +1,84 @@
+<md-dialog ng-cloak flex-sm="95" flex-gt-sm="75">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Create script</h2>
+    </div>
+  </md-toolbar>
+  <md-dialog-content>
+    <div class="md-dialog-content">
+      <div layout="row" layout-margin layout-padding>
+        <md-input-container>
+          <label>Action</label>
+          <md-select ng-model="$ctrl.data.type">
+            <md-option value="play">Play</md-option>
+            <md-option value="pause">Pause</md-option>
+            <md-option value="wait">Wait</md-option>
+            <md-option value="move">Move</md-option>
+            <md-option value="stop">Stop</md-option>
+          </md-select>
+        </md-input-container>
+        <md-input-container ng-show="$ctrl.data.type === 'play'">
+          <label>Music</label>
+          <md-select ng-model="$ctrl.data.music">
+            <md-option value="http://www.noiseaddicts.com/samples_1w72b820/4940.mp3">Music 1</md-option>
+            <md-option value="http://www.noiseaddicts.com/samples_1w72b820/2240.mp3">Music 2</md-option>
+            <md-option value="http://www.noiseaddicts.com/samples_1w72b820/3733.mp3">Music 3</md-option>
+          </md-select>
+        </md-input-container>
+        <md-input-container ng-show="$ctrl.data.type === 'play'">
+          <md-checkbox class="fix-align" ng-model="$ctrl.data.loop">
+            Loop
+          </md-checkbox>
+        </md-input-container>
+        <md-input-container ng-show="$ctrl.data.type === 'pause'">
+          <label>Indexes</label>
+          <input ng-model="$ctrl.data.indexes">
+        </md-input-container>
+        <md-input-container ng-show="$ctrl.data.type === 'wait'">
+          <label>Milliseconds</label>
+          <input ng-model="$ctrl.data.milliseconds">
+        </md-input-container>
+        <md-input-container ng-show="$ctrl.data.type === 'move'">
+          <label>Index</label>
+          <input ng-model="$ctrl.data.index">
+        </md-input-container>
+        <md-input-container ng-show="$ctrl.data.type === 'move'">
+          <label>Times</label>
+          <input ng-model="$ctrl.data.times">
+        </md-input-container>
+        <span flex></span>
+        <md-button class="md-raised" ng-click="$ctrl.addAction()">Add</md-button>
+      </div>
+      <div layout="column">
+        <h2>Script</h4>
+        <md-list>
+          <md-list-item ng-repeat="action in $ctrl.actions">
+            <div class="md-list-item-text">
+              <p>
+                <b>Action:</b> {{ action.type }}
+                <span ng-show="action.type === 'play'">
+                  <b>Music:</b> {{ action.music }} <b>Loop:</b> {{ action.loop }}
+                </span>
+                <span ng-show="action.type === 'pause'">
+                  <b>Indexes:</b> {{ action.indexes }}
+                </span>
+                <span ng-show="action.type === 'wait'">
+                  <b>Milliseconds:</b> {{ action.milli }}
+                </span>
+                <span ng-show="action.type === 'move'">
+                  <b>Index:</b> {{ action.index }} <b>Times:</b> {{ action.times }}
+                </span>
+              </p>
+            </div>
+            <md-divider ng-if="!$last"></md-divider>
+          </md-list-item>
+        </md-list>
+      </div>
+    </div>
+  </md-dialog-content>
+  <md-dialog-actions layout="row">
+    <span flex></span>
+    <md-button class="md-primary md-raised" ng-click="$ctrl.iterate()">Run</md-button>
+    <md-button class="md-primary md-raised">Save</md-button>
+  </md-dialog-actions>
+</md-dialog>
