@@ -10,12 +10,15 @@
       }
     });
 
-  function audioUploadController($mdToast, UserService, FileUploader, BoardAudiosService) {
+  function audioUploadController($mdToast, UserService, FileUploader, BoardAudiosService,
+    BoardScriptsService) {
     const vm = this;
 
     vm.fab = {
       open: false
     };
+
+    vm.createScript = createScript;
 
     vm.uploader = getUploader();
 
@@ -44,6 +47,11 @@
           console.info('fileItem: ', fileItem);
         }
       });
+    }
+
+    function createScript() {
+      BoardScriptsService.createScript();
+      $mdToast.show($mdToast.simple().textContent('Script Added!'));
     }
 
   }

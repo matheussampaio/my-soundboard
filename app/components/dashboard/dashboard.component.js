@@ -7,17 +7,19 @@
       templateUrl: 'dashboard/dashboard.html'
     });
 
-  function dashboardController(BoardAudiosService) {
+  function dashboardController(BoardAudiosService, BoardScriptsService) {
     const vm = this;
 
-    vm.data = null;
+    vm.audio = null;
+    vm.script = null;
 
     activate();
 
     ////////////////
 
     function activate() {
-      vm.data = BoardAudiosService.getAudios();
+      vm.audio = BoardAudiosService.getAudios();
+      vm.script = BoardScriptsService.getScripts();
     }
   }
 
