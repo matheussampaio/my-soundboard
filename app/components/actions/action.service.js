@@ -129,8 +129,10 @@
       $log.debug('stop script');
 
       service.actions.forEach((action) => {
-        action.audioElement.pause();
-        delete action.audioElement;
+        if (action.type === 'play') {
+          action.audioElement.pause();
+          delete action.audioElement;
+        }
       });
 
       return Promise.reject();

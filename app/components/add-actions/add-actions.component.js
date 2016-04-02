@@ -7,6 +7,7 @@
       templateUrl: 'add-actions/add-actions.html'
     });
 
+<<<<<<< HEAD
   function addActionsController($scope, $log, $mdDialog, ActionService, BoardAudiosService) {
     const vm = this;
 
