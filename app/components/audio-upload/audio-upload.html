@@ -1,4 +1,4 @@
-<md-card ng-repeat="audio in $ctrl.uploader.queue">
+<md-card ng-repeat="audio in $ctrl.uploader.queue" ng-if="!audio.isSuccess">
   <md-card-title ng-click="$ctrl.edit()">
     <md-card-title-text>
       <span class="md-headline" ng-bind="audio.file.name"></span>
@@ -8,25 +8,25 @@
   <md-card-actions layout="row" layout-align="end center">
     <md-button ng-disabled="true" ng-show="audio.isSuccess" class="upload-success">Success</md-button>
     <md-button ng-disabled="true" ng-show="audio.isError" class="upload-error">Error</md-button>
-    <md-button ng-hide="audio.isReady || audio.isUploading || audio.isSuccess || audio.isError" ng-click="audio.upload()">Upload</md-button>
+    <md-button ng-hide="audio.isReady || audio.isUploading || audio.isError" ng-click="audio.upload()">Upload</md-button>
   </md-card-actions>
 </md-card>
 
 <div ng-cloak class="lock-size" layout="row" layout-align="center center">
-<md-fab-speed-dial md-open="$ctrl.fab.open" class="md-fab-bottom-right md-fling" md-direction="up" class="md-fling">
-  <md-fab-trigger>
-    <md-button class="md-fab md-warn" aria-label="Add...">
-      <md-icon class="fa fa-plus"></md-icon>
-    </md-button>
-  </md-fab-trigger>
-  <md-fab-actions>
-    <md-button class="md-fab" aria-label="Script">
-      <md-icon class="fa fa-file-text-o"></md-icon>
-    </md-button>
-    <md-button class="md-fab" aria-label="Audio">
-      <label for="input-file" class="fa fa-file-audio-o"></label>
-      <input id="input-file" class="ng-hide" accept="audio/*" type="file" nv-file-select="" uploader="$ctrl.uploader" />
-    </md-button>
-  </md-fab-actions>
-</md-fab-speed-dial>
+  <md-fab-speed-dial md-open="$ctrl.fab.open" class="md-fab-bottom-right md-fling" md-direction="up" class="md-fling">
+    <md-fab-trigger>
+      <md-button class="md-fab md-warn" aria-label="Add...">
+        <md-icon class="fa fa-plus"></md-icon>
+      </md-button>
+    </md-fab-trigger>
+    <md-fab-actions>
+      <md-button class="md-fab" aria-label="Script">
+        <md-icon class="fa fa-file-text-o"></md-icon>
+      </md-button>
+      <md-button class="md-fab" aria-label="Audio">
+        <label for="input-file" class="fa fa-file-audio-o"></label>
+        <input id="input-file" class="ng-hide" accept="audio/*" type="file" nv-file-select="" uploader="$ctrl.uploader" />
+      </md-button>
+    </md-fab-actions>
+  </md-fab-speed-dial>
 </div>

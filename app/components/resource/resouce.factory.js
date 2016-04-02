@@ -16,12 +16,11 @@
     ///////////////////
 
     function audioResource() {
-      return $resource(`${DOMAIN}/audio?user=:userId`, {
-        userId: '@id'
+      return $resource(`${DOMAIN}/audio/:audioId`, {
+        audioId: '@id'
       }, {
-        get: {
-          method: 'GET',
-          isArray: true
+        update: {
+          method: 'PUT'
         }
       });
     }

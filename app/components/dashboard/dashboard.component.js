@@ -7,7 +7,7 @@
       templateUrl: 'dashboard/dashboard.html'
     });
 
-  function dashboardController(ResourceFactory, UserService) {
+  function dashboardController(BoardAudiosService) {
     const vm = this;
 
     vm.data = null;
@@ -17,11 +17,7 @@
     ////////////////
 
     function activate() {
-      ResourceFactory.audio.get({
-        userId: UserService.data.uid
-      }).$promise.then(data => {
-        vm.data = data;
-      });
+      vm.data = BoardAudiosService.getAudios();
     }
   }
 

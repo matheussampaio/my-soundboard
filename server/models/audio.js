@@ -22,6 +22,12 @@ const Audio = restful.model('audio', new restful.mongoose.Schema({
   user: {
     type: String,
     required: true
+  },
+  key: {
+    type: String
+  },
+  disabled: {
+    type: Boolean
   }
 }))
 .methods(['get', 'put', 'delete']);
@@ -61,12 +67,15 @@ Audio.route('post', (req, res) => {
       } else {
         audio.file = audioData._id;
 
-        audio.save((err2) => {
+        audio.save((err2, result) => {
           if (err2) {
             res.status(400).send(err2);
           } else {
-            res.writeHead(200, { Connection: 'close' });
-            res.end();
+            res.set({
+              'Content-Type': 'application/json',
+              Connection: 'close'
+            });
+            res.status(200).json(result);
           }
         });
       }

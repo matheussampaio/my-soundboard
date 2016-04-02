@@ -10,10 +10,8 @@
       }
     });
 
-  function boardAudioController($scope, hotkeys) {
+  function boardAudioController($scope, hotkeys, ResourceFactory) {
     const vm = this;
-
-    vm.data.key = 'm';
 
     vm.vars = {
       editing: 0,
@@ -25,13 +23,14 @@
     vm.edit = edit;
     vm.save = save;
     vm.cancel = cancel;
+    vm.delete = deletefn;
 
     activate();
 
     ///////////////
 
     function activate() {
-      if (vm.data.key) {
+      if (vm.data.key && !vm.data.disabled) {
         hotkeys.bindTo($scope)
           .add({
             combo: vm.data.key,
@@ -59,6 +58,13 @@
 
     function save() {
       vm.vars.editing = false;
+
+      ResourceFactory
+        .audio
+        .update({
+          audioId: vm.data._id
+        }, vm.data);
+
       activate();
     }
 
@@ -67,8 +73,18 @@
       vm.vars.editing = false;
     }
 
+    function deletefn() {
+      ResourceFactory
+        .audio
+        .delete({
+          audioId: vm.data._id
+        });
+
+      vm.data.deleted = true;
+    }
+
     function play() {
-      if (!vm.vars.playing && !vm.vars.editing) {
+      if (!vm.vars.playing && !vm.vars.editing && !vm.data.disabled) {
         vm.vars.playing = true;
         vm.vars.audio.play();
       }

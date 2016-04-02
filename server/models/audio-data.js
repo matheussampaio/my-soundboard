@@ -21,7 +21,7 @@ AudioData.route('stream.get', {
         'Content-Length': audio.file.length
       });
 
-      return res.send(200, audio.file);
+      return res.status(200).send(audio.file);
     });
   }
 });

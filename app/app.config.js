@@ -45,18 +45,11 @@
       template: '<dashboard></dashboard>'
     };
 
-    const settingsState = {
-      url: 'settings',
-      template: '<settings></settings>'
-      // auth: true
-    };
-
     $stateProvider
       .state('app', appState)
         .state('app.home', homeState)
         .state('app.login', loginState)
         .state('app.register', registerState)
-        .state('app.settings', settingsState)
         .state('app.dashboard', dashboardState);
 
     // if none of the above states are matched, use this as the fallback
