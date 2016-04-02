@@ -8,6 +8,16 @@
     <div class="md-dialog-content">
       <div layout="row" layout-margin layout-padding>
         <md-input-container>
+          <label>Title</label>
+          <input ng-model="$ctrl.data.title">
+        </md-input-container>
+        <md-input-container>
+          <label>Hotkey</label>
+          <input ng-model="$ctrl.data.hotkey">
+        </md-input-container>
+      </div>
+      <div layout="row" layout-margin layout-padding>
+        <md-input-container>
           <label>Action</label>
           <md-select ng-model="$ctrl.data.type">
             <md-option value="play">Play</md-option>
@@ -18,11 +28,9 @@
           </md-select>
         </md-input-container>
         <md-input-container ng-show="$ctrl.data.type === 'play'">
-          <label>Music</label>
-          <md-select ng-model="$ctrl.data.music">
-            <md-option value="http://www.noiseaddicts.com/samples_1w72b820/4940.mp3">Music 1</md-option>
-            <md-option value="http://www.noiseaddicts.com/samples_1w72b820/2240.mp3">Music 2</md-option>
-            <md-option value="http://www.noiseaddicts.com/samples_1w72b820/3733.mp3">Music 3</md-option>
+          <label>Audio</label>
+          <md-select ng-model="$ctrl.data.audio">
+            <md-option ng-repeat="audio in $ctrl.audios" value="{{ audio.file }}">{{ audio.title }}</md-option>
           </md-select>
         </md-input-container>
         <md-input-container ng-show="$ctrl.data.type === 'play'">
@@ -55,9 +63,10 @@
           <md-list-item ng-repeat="action in $ctrl.actions">
             <div class="md-list-item-text">
               <p>
+                <md-button ng-click="$ctrl.removeAction($index)">-</md-button>
                 <b>Action:</b> {{ action.type }}
                 <span ng-show="action.type === 'play'">
-                  <b>Music:</b> {{ action.music }} <b>Loop:</b> {{ action.loop }}
+                  <b>Audio:</b> {{ action.audio }} <b>Loop:</b> {{ action.loop }}
                 </span>
                 <span ng-show="action.type === 'pause'">
                   <b>Indexes:</b> {{ action.indexes }}

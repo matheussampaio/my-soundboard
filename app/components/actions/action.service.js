@@ -15,8 +15,8 @@
     };
 
     // service.actions = [
-    // 	{ type: 'play', music: ['http://www.noiseaddicts.com/samples_1w72b820/4940.mp3', 'http://www.noiseaddicts.com/samples_1w72b820/3733.mp3'], loop: true },
-    //   { type: 'play', music: ['http://www.noiseaddicts.com/samples_1w72b820/2240.mp3'], loop: false },
+    // 	{ type: 'play', audio: 'http://www.noiseaddicts.com/samples_1w72b820/4940.mp3', loop: true },
+    //   { type: 'play', audio: 'http://www.noiseaddicts.com/samples_1w72b820/2240.mp3', loop: false },
     //   { type: 'wait', milli: 3000 },
     //   { type: 'pause', indexes: [1] },
     //   { type: 'move', index: 0, times: 2 },
@@ -69,14 +69,14 @@
       }
     }
 
-    function play({ music, loop }) {
-      $log.debug(`play music "${music}" loop: ${loop}`);
+    function play({ audio, loop }) {
+      $log.debug(`play audio "${audio}" loop: ${loop}`);
 
-      const audio = new Audio(music);
-      audio.loop = loop;
-      audio.play();
+      const audioEl = new Audio(audio);
+      audioEl.loop = loop;
+      audioEl.play();
 
-      service.actions[service.nextIndex].audioElement = audio;
+      service.actions[service.nextIndex].audioElement = audioEl;
       service.nextIndex++;
       return Promise.resolve();
     }
@@ -114,7 +114,7 @@
     }
 
     function pauseMusic({ indexes }) {
-      $log.debug('pause musics');
+      $log.debug('pause audios');
 
       indexes.forEach((index) => {
         service.actions[index].audioElement.pause();

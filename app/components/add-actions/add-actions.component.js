@@ -7,14 +7,16 @@
       templateUrl: 'add-actions/add-actions.html'
     });
 
-  function addActionsController($scope, $log, ActionService, $mdDialog) {
+  function addActionsController($scope, $log, $mdDialog, ActionService, BoardAudiosService) {
     const vm = this;
 
     vm.data = {};
     vm.showDialog = showDialog;
     vm.addAction = addAction;
+    vm.removeAction = removeAction;
     vm.iterate = iterate;
     vm.actions = ActionService.actions;
+    vm.audios = BoardAudiosService.getAudios();
 
     function showDialog($event) {
       $mdDialog.show({
@@ -29,7 +31,7 @@
       const action = { type: vm.data.type };
 
       if (action.type === 'play') {
-        action.music = vm.data.music;
+        action.audio = `http://localhost:3000/api/audiodata/${vm.data.audio}/stream`;
         action.loop = vm.data.loop || false;
       }
 
@@ -47,6 +49,10 @@
       }
 
       ActionService.addAction(action);
+    }
+
+    function removeAction(index) {
+      ActionService.removeAction(index);
     }
 
     function iterate() {
