@@ -10,7 +10,7 @@
       }
     });
 
-  function boardAudioController($scope, hotkeys, ResourceFactory) {
+  function boardAudioController($scope, $mdToast, ResourceFactory, BoardAudiosService) {
     const vm = this;
 
     vm.vars = {
@@ -18,6 +18,10 @@
       playing: false,
       keyBackup: null,
       audio: new Audio(`http://localhost:3000/api/audiodata/${vm.data.file}/stream`)
+    };
+
+    vm.vars.audio.onended = () => {
+      vm.vars.playing = false;
     };
 
     vm.edit = edit;
@@ -31,23 +35,17 @@
 
     function activate() {
       if (vm.data.key && !vm.data.disabled) {
-        hotkeys.bindTo($scope)
-          .add({
-            combo: vm.data.key,
-            description: vm.data.title,
-            action: 'keydown',
-            callback: () => {
-              play();
-            }
-          })
-          .add({
-            combo: vm.data.key,
-            description: vm.data.title,
-            action: 'keyup',
-            callback: () => {
-              stop();
-            }
-          });
+        BoardAudiosService.register({
+          audio: vm.data,
+          play,
+          stop
+        });
+
+      } else {
+        console.log(`no keybinding`, vm.data);
+        // BoardAudiosService.unregister({
+        //   audio: vm.data
+        // });
       }
     }
 
@@ -58,6 +56,8 @@
 
     function save() {
       vm.vars.editing = false;
+
+      vm.data.key = vm.data.key || '';
 
       ResourceFactory
         .audio
@@ -79,6 +79,8 @@
         .delete({
           audioId: vm.data._id
         });
+
+      $mdToast.show($mdToast.simple().textContent('Audio Deleted!'));
 
       vm.data.deleted = true;
     }

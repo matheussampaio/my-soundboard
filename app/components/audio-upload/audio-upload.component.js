@@ -21,13 +21,6 @@
 
     /////////////////
 
-    // $mdToast.show(
-    //   $mdToast.simple()
-    //     .textContent('Audio added.')
-    //     .position('top right')
-    //     .hideDelay(3000)
-    // );
-
     function getUploader() {
       return new FileUploader({
         url: '/api/audio',
@@ -44,11 +37,7 @@
         },
         onSuccessItem: (fileItem, response, status, headers) => {
           BoardAudiosService.addAudio(response);
-
-          console.log('toast');
-          $mdToast.show($mdToast.simple().position('top right').textContent('Audio Added!'));
-
-          // console.info('onSuccessItem', fileItem, response, status, headers);
+          $mdToast.show($mdToast.simple().textContent('Audio Added!'));
         },
         onErrorItem: (fileItem, response, status, headers) => {
           console.error('error: ', response);
