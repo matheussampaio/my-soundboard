@@ -18,6 +18,10 @@ const Music = restful.model('music', new restful.mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'audiodata',
     required: true
+  },
+  user: {
+    type: String,
+    required: true
   }
 }))
 .methods(['get', 'put', 'delete']);

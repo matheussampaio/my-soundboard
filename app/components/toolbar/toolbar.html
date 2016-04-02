@@ -2,6 +2,23 @@
   <div class="md-toolbar-tools">
     <span>My Soundboard</span>
 
+    <!-- Home -->
+    <md-button
+      ui-sref-active="active"
+      ui-sref="app.home"
+      ng-show="$ctrl.user.data" >
+        Home
+    </md-button>
+
+    <!-- Upload -->
+    <md-button
+      ui-sref-active="active"
+      ui-sref="app.upload"
+      ng-show="$ctrl.user.data" >
+        Upload Audio
+    </md-button>
+
+
     <!-- fill up the space between left and right area -->
     <span flex></span>
 
@@ -9,7 +26,7 @@
     <md-button
       ui-sref-active="active"
       ui-sref="app.login"
-      ng-hide="$ctrl.$rootScope.user" >
+      ng-hide="$ctrl.user.data" >
         Login
     </md-button>
 
@@ -17,7 +34,7 @@
     <md-button
       ui-sref-active="active"
       ui-sref="app.register"
-      ng-hide="$ctrl.$rootScope.user">
+      ng-hide="$ctrl.user.data">
         Register
     </md-button>
 
@@ -25,14 +42,14 @@
     <md-button
       ui-sref-active="active"
       ui-sref="app.settings"
-      ng-show="$ctrl.$rootScope.user">
+      ng-show="$ctrl.user.data">
         Settings
     </md-button>
 
     <!-- Logout -->
     <md-button
       ng-click="$ctrl.logout()"
-      ng-show="$ctrl.$rootScope.user">
+      ng-show="$ctrl.user.data">
         Logout
     </md-button>
 

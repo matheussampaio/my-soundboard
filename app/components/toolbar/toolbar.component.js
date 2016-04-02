@@ -7,15 +7,14 @@
       templateUrl: 'toolbar/toolbar.html'
     });
 
-  function toolbarController($state, $rootScope, $log, FirebaseService) {
+  function toolbarController($state, $log, FirebaseService, UserService) {
     const vm = this;
 
-    vm.$rootScope = $rootScope;
+    vm.user = UserService;
 
     vm.logout = logout;
 
-    $log.debug('toolbar');
-    $log.debug(vm.user);
+    console.log('toolbar', vm.user);
 
     ////////////////
 

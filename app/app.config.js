@@ -46,10 +46,15 @@
       auth: true
     };
 
+    const uploadState = {
+      url: 'upload',
+      template: '<audio-upload></audio-upload>'
+    };
+
     const settingsState = {
       url: 'settings',
-      template: '<settings></settings>',
-      auth: true
+      template: '<settings></settings>'
+      // auth: true
     };
 
     $stateProvider
@@ -58,7 +63,8 @@
         .state('app.login', loginState)
         .state('app.register', registerState)
         .state('app.settings', settingsState)
-        .state('app.dashboard', dashboardState);
+        .state('app.dashboard', dashboardState)
+        .state('app.upload', uploadState);
 
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/home');

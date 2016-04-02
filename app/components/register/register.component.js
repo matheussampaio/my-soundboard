@@ -7,7 +7,7 @@
       templateUrl: 'register/register.html'
     });
 
-  function registerController($state, $rootScope, $log, FirebaseService) {
+  function registerController($state, $log, FirebaseService) {
     const vm = this;
 
     vm.data = {

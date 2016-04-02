@@ -1,4 +1,43 @@
-<div class="container" nv-file-over="" uploader="$ctrl.uploader">
+<div layout="row" layout-margin layout-padding>
+  <md-card
+    ng-repeat="audio in $ctrl.uploader.queue"
+    ng-class="{ upload-success: audio.isSuccess; upload-error: audio.isError }"
+    flex="20">
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">Audio:</span>
+      </md-card-title-text>
+    </md-card-title>
+
+    <md-card-content>
+      <span ng-bind="audio.file.name"></span>
+    </md-card-content>
+
+    <md-card-actions layout="row" layout-align="end center">
+      <md-button ng-disabled="true" ng-show="audio.isSuccess" class="upload-success">Success</md-button>
+      <md-button ng-disabled="true" ng-show="audio.isError" class="upload-error">Error</md-button>
+      <md-button ng-hide="audio.isReady || audio.isUploading || audio.isSuccess" ng-click="audio.upload()">Upload</md-button>
+    </md-card-actions>
+  </md-card>
+
+  <md-card flex="20">
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">Add Audio</span>
+      </md-card-title-text>
+    </md-card-title>
+
+    <md-card-content>
+      <span ng-bind="audio.file.name"></span>
+    </md-card-content>
+
+    <md-card-actions layout="row" layout-align="end center">
+        <input accept="audio/*" type="file" nv-file-select="" uploader="$ctrl.uploader" />
+    </md-card-actions>
+  </md-card>
+</div>
+
+<!-- <div class="container" nv-file-over="" uploader="$ctrl.uploader">
   <div class="row">
     <div class="col-md-9">
 
@@ -65,4 +104,4 @@
         <input accept="audio/*" type="file" nv-file-select="" uploader="$ctrl.uploader" />
     </div>
   </div>
-</div>
+</div> -->

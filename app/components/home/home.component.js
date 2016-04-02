@@ -7,8 +7,8 @@
       templateUrl: 'home/home.html'
     });
 
-  function homeController() {
-    console.log('home');
+  function homeController(UserService) {
+    console.log('home', UserService.user);
   }
 
 })();

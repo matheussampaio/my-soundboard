@@ -15,9 +15,19 @@
       password: null,
       remember: true
     };
+
     vm.login = login;
 
+    // activate();
+
     ////////////////
+
+    // function activate() {
+    //   if ($rootScope.user) {
+    //     $log.debug('skip home');
+    //     $state.go('app.home');
+    //   }
+    // }
 
     function login() {
       FirebaseService.auth.$authWithPassword({
@@ -27,7 +37,7 @@
         remember: vm.data.remember ? 'default' : 'sessionOnly'
       }).then((user) => {
         $log.debug('Logged in as:', user);
-        $rootScope.user = user;
+        // $rootScope.user = user;
         $state.go('app.home');
       }).catch((error) => {
         vm.error = error;
