@@ -11,9 +11,7 @@
     });
 
   function BoardScriptController($rootScope, $log, $timeout, $scope, $mdToast,
-    $mdDialog, ResourceFactory,
-    BoardAudiosService,
-    ScriptRunFactory) {
+    $mdDialog, ResourceFactory, BoardAudiosService, HotkeysService, ScriptRunFactory) {
     const vm = this;
 
     vm.vars = {
@@ -37,11 +35,13 @@
 
     function activate() {
       if (vm.script.key && !vm.script.disabled) {
-        // BoardAudiosService.register({
-        //   audio: vm.script,
-        //   play,
-        //   stop
-        // });
+        HotkeysService.register({
+          type: 'audio',
+          id: vm.script._id,
+          hotkey: vm.script.key,
+          play,
+          stop
+        });
 
       } else {
         // BoardAudiosService.unregister({
@@ -56,7 +56,7 @@
 
       $mdDialog.show({
         scope: $scope,
-        templateUrl: 'add-actions/dialog.tmpl.html',
+        templateUrl: 'board-script/dialog.tmpl.html',
         preserveScope: true,
         escapeToClose: true,
         clickOutsideToClose: true

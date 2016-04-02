@@ -10,7 +10,7 @@
       getScripts,
       createScript,
       data: []
-    }
+    };
 
     activate();
 

@@ -10,7 +10,7 @@
       }
     });
 
-  function boardAudioController($scope, $mdToast, ResourceFactory, BoardAudiosService) {
+  function boardAudioController($scope, $mdToast, ResourceFactory, HotkeysService) {
     const vm = this;
 
     vm.vars = {
@@ -35,15 +35,16 @@
 
     function activate() {
       if (vm.audio.key && !vm.audio.disabled) {
-        BoardAudiosService.register({
-          audio: vm.audio,
+        HotkeysService.register({
+          type: 'audio',
+          id: vm.audio._id,
+          hotkey: vm.audio.key,
           play,
           stop
         });
 
       } else {
-        console.log(`no keybinding`, vm.audio);
-        // BoardAudiosService.unregister({
+        // HotkeysService.unregister({
         //   audio: vm.audio
         // });
       }
