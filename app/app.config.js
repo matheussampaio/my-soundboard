@@ -42,8 +42,7 @@
 
     const dashboardState = {
       url: 'dashboard',
-      template: '<dashboard></dashboard>',
-      auth: true
+      template: '<dashboard></dashboard>'
     };
 
     const settingsState = {
