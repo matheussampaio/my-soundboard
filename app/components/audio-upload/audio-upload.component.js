@@ -13,19 +13,24 @@
   function audioUploadController(UserService, FileUploader) {
     const vm = this;
 
+    vm.fab = {
+      open: false
+    };
+
     vm.uploader = getUploader();
 
     /////////////////
 
     function getUploader() {
       return new FileUploader({
-        url: '/api/music',
+        url: '/api/audio',
         headers: {
           ContentType: 'application/json'
         },
         onBeforeUploadItem: (item) => {
           item.formData.push({
-            user: UserService.user.data.uid,
+            title: 'audio',
+            user: UserService.data.uid,
             size: item.file.size
           });
           console.log(item);

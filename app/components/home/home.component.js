@@ -7,8 +7,22 @@
       templateUrl: 'home/home.html'
     });
 
-  function homeController(UserService) {
-    console.log('home', UserService.user);
+  function homeController($rootScope, ResourceFactory, UserService) {
+    const vm = this;
+
+    vm.data = null;
+
+    activate();
+
+    ////////////////
+
+    function activate() {
+      ResourceFactory.audio.get({
+        userId: UserService.data.uid
+      }).$promise.then(data => {
+        vm.data = data;
+      });
+    }
   }
 
 })();

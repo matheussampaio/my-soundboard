@@ -1,0 +1,20 @@
+<md-card ng-class="{ playing: $ctrl.vars.playing }">
+  <md-card-title ng-click="$ctrl.edit()">
+    <md-card-title-text>
+      <span class="md-headline" ng-bind="$ctrl.data.title"></span>
+    </md-card-title-text>
+  </md-card-title>
+
+  <md-card-content ng-click="$ctrl.edit()">
+    <span ng-hide="$ctrl.vars.editing">[{{$ctrl.data.key}}]</span>
+    <md-input-container ng-show="$ctrl.vars.editing">
+      <label>Hotkey</label>
+      <input name="hotkey" type="text" ng-model="$ctrl.data.key" required>
+    </md-input-container>
+  </md-card-content>
+
+  <md-card-actions layout="row" layout-align="end center">
+    <md-button ng-click="$ctrl.cancel()"  ng-if="$ctrl.vars.editing">Cancel</md-button>
+    <md-button ng-click="$ctrl.save()"  ng-if="$ctrl.vars.editing">Save</md-button>
+  </md-card-actions>
+</md-card>

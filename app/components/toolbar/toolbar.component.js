@@ -14,12 +14,9 @@
 
     vm.logout = logout;
 
-    console.log('toolbar', vm.user);
-
     ////////////////
 
     function logout() {
-      $log.debug('logout');
       FirebaseService.auth.$unauth();
       $state.go('app.home');
     }

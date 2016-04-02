@@ -13,7 +13,7 @@ const config = {
 const browserSync = require('browser-sync').create(config.appName);
 
 gulp.task('build:clean', () => {
-  return del(['www/**/*', '!www/.gitkeep']);
+  return del(['www/**/*', 'dist/**/*', '!www/.gitkeep']);
 });
 
 gulp.task('build:fonts', () => {

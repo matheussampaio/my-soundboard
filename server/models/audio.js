@@ -4,7 +4,7 @@ import AudioData from './audio-data';
 
 const mongoose = restful.mongoose;
 
-const Music = restful.model('music', new restful.mongoose.Schema({
+const Audio = restful.model('audio', new restful.mongoose.Schema({
   title: {
     type: String,
     trim: true,
@@ -26,7 +26,7 @@ const Music = restful.model('music', new restful.mongoose.Schema({
 }))
 .methods(['get', 'put', 'delete']);
 
-Music.route('post', (req, res) => {
+Audio.route('post', (req, res) => {
   console.log('teste');
 
   const busboy = new Busboy({
@@ -36,13 +36,12 @@ Music.route('post', (req, res) => {
     }
   });
 
-  const music = new Music();
+  const audio = new Audio();
 
   const fileBuffer = [];
 
   busboy.on('file', (fieldname, file) => {
     file.on('data', data => {
-      console.log(data);
       fileBuffer.push(data);
     });
 
@@ -52,17 +51,17 @@ Music.route('post', (req, res) => {
   });
 
   busboy.on('finish', () => {
-    const musicdata = new AudioData();
+    const audioData = new AudioData();
 
-    musicdata.file = Buffer.concat(fileBuffer);
+    audioData.file = Buffer.concat(fileBuffer);
 
-    musicdata.save((err) => {
+    audioData.save((err) => {
       if (err) {
         res.status(400).send(err);
       } else {
-        music.file = musicdata._id;
+        audio.file = audioData._id;
 
-        music.save((err2) => {
+        audio.save((err2) => {
           if (err2) {
             res.status(400).send(err2);
           } else {
@@ -76,10 +75,10 @@ Music.route('post', (req, res) => {
   });
 
   busboy.on('field', (fieldname, val) => {
-    music[fieldname] = val;
+    audio[fieldname] = val;
   });
 
   req.pipe(busboy);
 });
 
-module.exports = Music;
+module.exports = Audio;
