@@ -1,6 +1,7 @@
 <div layout="row"  layout-align="start start" layout-wrap layout-margin layout-padding>
-  <board-audio ng-repeat="audio in $ctrl.audio" data="audio"></board-audio>
-  <board-script ng-repeat="script in $ctrl.script" data="script"></board-script>
+  <board-audio ng-repeat="audio in $ctrl.audio" audio="audio" ng-if="!audio.deleted"></board-audio>
+  <board-script ng-repeat="script in $ctrl.script" script="script" ng-if="!script.deleted"></board-script>
+
   <audio-upload></audio-upload>
 </div>
 

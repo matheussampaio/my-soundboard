@@ -6,11 +6,7 @@ const Script = restful.model('script', new restful.mongoose.Schema({
     trim: true,
     required: true
   },
-  data: {
-    type: String,
-    trim: true,
-    required: true
-  },
+  data: [],
   key: {
     type: String,
     default: ''
@@ -18,6 +14,9 @@ const Script = restful.model('script', new restful.mongoose.Schema({
   title: {
     type: String,
     required: true
+  },
+  disabled: {
+    type: Boolean
   }
 }))
 .methods(['get', 'put', 'post', 'delete']);

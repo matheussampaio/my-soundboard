@@ -6,7 +6,7 @@
       controller: boardAudioController,
       templateUrl: 'board-audio/board-audio.html',
       bindings: {
-        data: '='
+        audio: '='
       }
     });
 
@@ -17,7 +17,7 @@
       editing: 0,
       playing: false,
       keyBackup: null,
-      audio: new Audio(`http://localhost:3000/api/audiodata/${vm.data.file}/stream`)
+      audio: new Audio(`http://localhost:3000/api/audiodata/${vm.audio.file}/stream`)
     };
 
     vm.vars.audio.onended = () => {
@@ -34,42 +34,42 @@
     ///////////////
 
     function activate() {
-      if (vm.data.key && !vm.data.disabled) {
+      if (vm.audio.key && !vm.audio.disabled) {
         BoardAudiosService.register({
-          audio: vm.data,
+          audio: vm.audio,
           play,
           stop
         });
 
       } else {
-        console.log(`no keybinding`, vm.data);
+        console.log(`no keybinding`, vm.audio);
         // BoardAudiosService.unregister({
-        //   audio: vm.data
+        //   audio: vm.audio
         // });
       }
     }
 
     function edit() {
-      vm.vars.keyBackup = vm.data.key;
+      vm.vars.keyBackup = vm.audio.key;
       vm.vars.editing = true;
     }
 
     function save() {
       vm.vars.editing = false;
 
-      vm.data.key = vm.data.key || '';
+      vm.audio.key = vm.audio.key || '';
 
       ResourceFactory
         .audio
         .update({
-          audioId: vm.data._id
-        }, vm.data);
+          audioId: vm.audio._id
+        }, vm.audio);
 
       activate();
     }
 
     function cancel() {
-      vm.data.key = vm.vars.keyBackup;
+      vm.audio.key = vm.vars.keyBackup;
       vm.vars.editing = false;
     }
 
@@ -77,16 +77,16 @@
       ResourceFactory
         .audio
         .delete({
-          audioId: vm.data._id
+          audioId: vm.audio._id
         });
 
       $mdToast.show($mdToast.simple().textContent('Audio Deleted!'));
 
-      vm.data.deleted = true;
+      vm.audio.deleted = true;
     }
 
     function play() {
-      if (!vm.vars.playing && !vm.vars.editing && !vm.data.disabled) {
+      if (!vm.vars.playing && !vm.vars.editing && !vm.audio.disabled) {
         vm.vars.playing = true;
         vm.vars.audio.play();
       }

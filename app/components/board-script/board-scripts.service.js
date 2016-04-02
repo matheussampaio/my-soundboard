@@ -37,7 +37,7 @@
 
       script.title = 'Script Title';
       script.user = UserService.data.uid;
-      script.data = '{}';
+      script.data = [];
       service.data.push(script);
       script.$save();
     }

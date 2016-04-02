@@ -1,134 +1,122 @@
 (function () {
 
-  angular
-    .module('mysoundboard')
-    .service('ActionService', ActionService);
+  class ScriptRunFactory {
+    constructor($log, $timeout) {
+      this.$log = $log;
+      this.$timeout = $timeout;
 
-  function ActionService($log, $timeout) {
-    const service = {
-      variables: {},
-      actions: [],
-      nextIndex: 0,
-      iterate,
-      addAction,
-      removeAction
-    };
-
-    // service.actions = [
-    // 	{ type: 'play', audio: 'http://www.noiseaddicts.com/samples_1w72b820/4940.mp3', loop: true },
-    //   { type: 'play', audio: 'http://www.noiseaddicts.com/samples_1w72b820/2240.mp3', loop: false },
-    //   { type: 'wait', milli: 3000 },
-    //   { type: 'pause', indexes: [1] },
-    //   { type: 'move', index: 0, times: 2 },
-    //   { type: 'wait', milli: 15000 },
-    //   { type: 'stop' }
-    // ];
-
-    return service;
-
-    function iterate() {
-      executeAction()
-      .then(() => iterate())
-      .catch(() => { $log.debug('stop'); });
+      this.variables = {};
+      this.actions = null;
+      this.nextIndex = 0;
+      this.playing = false;
+      this.isInitialized = false;
     }
 
-    function addAction(action) {
-      $log.debug('adding action');
-      $log.debug(action);
-
-      service.actions.push(action);
+    init(actions) {
+      this.actions = actions;
+      this.isInitialized = true;
+      this.playing = true;
     }
 
-    function removeAction(index) {
-      $log.debug(`removing action ${index}`);
-      service.actions.splice(index, 1);
+    iterate() {
+      if (!this.playing && !this.isInitialized) {
+        return Promise.reject();
+      }
+
+      return this._executeAction()
+        .then(() => this.iterate());
     }
 
-    function executeAction() {
-      $log.debug(`execute action, nextIndex: ${service.nextIndex}`);
-      const element = service.actions[service.nextIndex];
+    stop() {
+      this._stopScript().catch(() => {});
+    }
+
+    _executeAction() {
+      this.$log.debug(`execute action, nextIndex: ${this.nextIndex}`);
+      const element = this.actions[this.nextIndex];
 
       if (element.type === 'play') {
-        return play(element);
+        return this._play(element);
       }
 
       if (element.type === 'wait') {
-        return waitFor(element);
+        return this._waitFor(element);
       }
 
       if (element.type === 'move') {
-        return moveTo(element);
+        return this._moveTo(element);
       }
 
       if (element.type === 'pause') {
-        return pauseMusic(element);
+        return this._pauseMusic(element);
       }
 
-      if (element.type === 'stop') {
-        return stopScript();
-      }
+      // if (element.type === 'stop') {
+      return this._stopScript();
+      // }
     }
 
-    function play({ audio, loop }) {
-      $log.debug(`play audio "${audio}" loop: ${loop}`);
+    _play({ audio, loop }) {
+      this.$log.debug(`play audio "${audio}" loop: ${loop}`);
 
       const audioEl = new Audio(audio);
       audioEl.loop = loop;
       audioEl.play();
 
-      service.actions[service.nextIndex].audioElement = audioEl;
-      service.nextIndex++;
+      this.actions[this.nextIndex].audioElement = audioEl;
+      this.nextIndex++;
       return Promise.resolve();
     }
 
-    function waitFor({ milli }) {
-      $log.debug(`wait for ${milli}ms`);
+    _waitFor({ milli }) {
+      this.$log.debug(`wait for ${milli}ms`);
 
-      service.nextIndex++;
-      return new Promise((resolve) => {
-        $timeout(resolve, milli);
-      });
+      this.nextIndex++;
+
+      return this.$timeout(() => {}, milli);
     }
 
-    function moveTo({ index, times }) {
-      $log.debug(`move to index ${index}, ${times} times`);
+    _moveTo({ index, times }) {
+      this.$log.debug(`move to index ${index}, ${times} times`);
 
       // track which iteration we are now and if is not yet defined, define it
       // with the times value
-      if (service.variables[index]) {
-        service.variables[index]--;
+      if (this.variables[index]) {
+        this.variables[index]--;
       } else {
-        service.variables[index] = times;
+        this.variables[index] = times;
       }
 
       // if is the last iteration on the move, go to the next action
       // otherwise, go to the index
-      if (service.variables[index] === 0) {
-        delete service.variables[index];
-        service.nextIndex++;
+      if (this.variables[index] === 0) {
+        delete this.variables[index];
+        this.nextIndex++;
       } else {
-        service.nextIndex = index;
+        this.nextIndex = index;
       }
 
       return Promise.resolve();
     }
 
-    function pauseMusic({ indexes }) {
-      $log.debug('pause audios');
+    _pauseMusic({ indexes }) {
+      this.$log.debug('pause audios');
 
       indexes.forEach((index) => {
-        service.actions[index].audioElement.pause();
-        delete service.actions[index].audioElement;
+        this.actions[index].audioElement.pause();
+        delete this.actions[index].audioElement;
       });
 
-      service.nextIndex++;
+      this.nextIndex++;
       return Promise.resolve();
     }
 
-    function stopScript() {
-      $log.debug('stop script');
+    _stopScript() {
+      this.playing = false;
 
-      service.actions.forEach((action) => {
+      this.$log.debug('stop script');
+
+      this.actions.forEach((action) => {
         if (action.type === 'play') {
           action.audioElement.pause();
           delete action.audioElement;
@@ -137,6 +125,11 @@
 
       return Promise.reject();
     }
+
   }
+
+  angular
+    .module('mysoundboard')
+    .factory('ScriptRunFactory', () => ScriptRunFactory);
 
 })();

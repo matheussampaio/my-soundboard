@@ -1,22 +1,22 @@
-<md-card ng-if="!$ctrl.data.deleted" ng-class="{ playing: $ctrl.vars.playing, disabled: $ctrl.data.disabled }">
+<md-card ng-class="{ playing: $ctrl.vars.playing, disabled: $ctrl.audio.disabled }">
   <md-card-title ng-click="$ctrl.edit()">
     <md-card-title-text>
-      <span class="md-headline" ng-bind="$ctrl.data.title"></span>
+      <span class="md-headline" ng-bind="$ctrl.audio.title"></span>
     </md-card-title-text>
   </md-card-title>
 
   <md-card-content ng-hide="$ctrl.vars.editing" ng-click="$ctrl.edit()">
-    <span ng-hide="$ctrl.vars.editing">[{{$ctrl.data.key}}]</span>
+    <span ng-hide="$ctrl.vars.editing">[{{$ctrl.audio.key}}]</span>
   </md-card-content>
 
   <md-card-content layout="column" ng-show="$ctrl.vars.editing">
     <md-input-container >
       <label>Hotkey</label>
-      <input name="hotkey" type="text" ng-model="$ctrl.data.key" required>
+      <input name="hotkey" type="text" ng-model="$ctrl.audio.key" required>
     </md-input-container>
 
     <md-input-container>
-      <md-switch aria-label="Disabled audio" ng-model="$ctrl.data.disabled">
+      <md-switch aria-label="Disabled audio" ng-model="$ctrl.audio.disabled">
         Disabled
       </md-switch>
     </md-input-container>

@@ -9,17 +9,17 @@
       <div layout="row" layout-margin layout-padding>
         <md-input-container>
           <label>Title</label>
-          <input ng-model="$ctrl.data.title">
+          <input ng-model="$ctrl.script.title">
         </md-input-container>
         <md-input-container>
           <label>Hotkey</label>
-          <input ng-model="$ctrl.data.hotkey">
+          <input ng-model="$ctrl.script.key">
         </md-input-container>
       </div>
       <div layout="row" layout-margin layout-padding>
         <md-input-container>
           <label>Action</label>
-          <md-select ng-model="$ctrl.data.type">
+          <md-select ng-model="$ctrl.form.type">
             <md-option value="play">Play</md-option>
             <md-option value="pause">Pause</md-option>
             <md-option value="wait">Wait</md-option>
@@ -27,40 +27,40 @@
             <md-option value="stop">Stop</md-option>
           </md-select>
         </md-input-container>
-        <md-input-container ng-show="$ctrl.data.type === 'play'">
+        <md-input-container ng-show="$ctrl.form.type === 'play'">
           <label>Audio</label>
-          <md-select ng-model="$ctrl.data.audio">
-            <md-option ng-repeat="audio in $ctrl.audios" value="{{ audio.file }}">{{ audio.title }}</md-option>
+          <md-select ng-model="$ctrl.form.audio">
+            <md-option ng-repeat="audio in $ctrl.vars.audios" value="{{ audio.file }}">{{ audio.title }}</md-option>
           </md-select>
         </md-input-container>
-        <md-input-container ng-show="$ctrl.data.type === 'play'">
-          <md-checkbox class="fix-align" ng-model="$ctrl.data.loop">
+        <md-input-container ng-show="$ctrl.form.type === 'play'">
+          <md-checkbox class="fix-align" ng-model="$ctrl.form.loop">
             Loop
           </md-checkbox>
         </md-input-container>
-        <md-input-container ng-show="$ctrl.data.type === 'pause'">
+        <md-input-container ng-show="$ctrl.form.type === 'pause'">
           <label>Indexes</label>
-          <input ng-model="$ctrl.data.indexes">
+          <input ng-model="$ctrl.form.indexes">
         </md-input-container>
-        <md-input-container ng-show="$ctrl.data.type === 'wait'">
+        <md-input-container ng-show="$ctrl.form.type === 'wait'">
           <label>Milliseconds</label>
-          <input ng-model="$ctrl.data.milliseconds">
+          <input ng-model="$ctrl.form.milliseconds">
         </md-input-container>
-        <md-input-container ng-show="$ctrl.data.type === 'move'">
+        <md-input-container ng-show="$ctrl.form.type === 'move'">
           <label>Index</label>
-          <input ng-model="$ctrl.data.index">
+          <input ng-model="$ctrl.form.index">
         </md-input-container>
-        <md-input-container ng-show="$ctrl.data.type === 'move'">
+        <md-input-container ng-show="$ctrl.form.type === 'move'">
           <label>Times</label>
-          <input ng-model="$ctrl.data.times">
+          <input ng-model="$ctrl.form.times">
         </md-input-container>
         <span flex></span>
         <md-button class="md-raised" ng-click="$ctrl.addAction()">Add</md-button>
       </div>
-      <div layout="column">
+      <div layout="column" ng-show="$ctrl.script.data.length">
         <h2>Script</h4>
         <md-list>
-          <md-list-item ng-repeat="action in $ctrl.actions">
+          <md-list-item ng-repeat="action in $ctrl.script.data">
             <div class="md-list-item-text">
               <p>
                 <md-button ng-click="$ctrl.removeAction($index)">-</md-button>
@@ -86,8 +86,10 @@
     </div>
   </md-dialog-content>
   <md-dialog-actions layout="row">
+    <md-button class="md-warn" ng-click="$ctrl.delete()">Delete</md-button>
     <span flex></span>
-    <md-button class="md-primary md-raised" ng-click="$ctrl.iterate()">Run</md-button>
-    <md-button class="md-primary md-raised">Save</md-button>
+    <md-button class="md-warn md-raised" ng-show="$ctrl.vars.playing" ng-click="$ctrl.stop()">Stop</md-button>
+    <md-button class="md-primary md-raised" ng-hide="$ctrl.vars.playing" ng-click="$ctrl.play()">Start</md-button>
+    <md-button class="md-primary md-raised" ng-click="$ctrl.save()">Save</md-button>
   </md-dialog-actions>
 </md-dialog>
