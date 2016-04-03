@@ -138,7 +138,7 @@
       const action = { type: vm.form.type };
 
       if (action.type === 'play') {
-        action.audio = `http://localhost:3000/api/audiodata/${vm.form.audio}/stream`;
+        action.audio = `http://my-soundboard.herokuapp.com/api/audiodata/${vm.form.audio}/stream`;
         action.loop = vm.form.loop || false;
       }
 
