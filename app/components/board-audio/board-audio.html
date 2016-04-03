@@ -1,8 +1,12 @@
 <md-card ng-class="{ playing: $ctrl.vars.playing, disabled: $ctrl.audio.disabled }">
   <md-card-title ng-click="$ctrl.edit()">
-    <md-card-title-text>
+    <md-card-title-text ng-hide="$ctrl.vars.editing">
       <span class="md-headline" ng-bind="$ctrl.audio.title"></span>
     </md-card-title-text>
+    <md-input-container ng-show="$ctrl.vars.editing">
+      <label>Title</label>
+      <input name="title" type="text" ng-model="$ctrl.audio.title" required>
+    </md-input-container>
   </md-card-title>
 
   <md-card-content ng-hide="$ctrl.vars.editing" ng-click="$ctrl.edit()">
