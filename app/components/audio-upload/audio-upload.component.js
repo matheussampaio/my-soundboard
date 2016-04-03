@@ -32,13 +32,14 @@
         },
         onBeforeUploadItem: (item) => {
           item.formData.push({
-            title: 'audio',
+            title: item.file.name,
             user: UserService.data.uid,
             size: item.file.size
           });
           console.log(item);
         },
         onSuccessItem: (fileItem, response, status, headers) => {
+          console.log(`success`);
           BoardAudiosService.addAudio(response);
           $mdToast.show($mdToast.simple().textContent('Audio Added!'));
         },

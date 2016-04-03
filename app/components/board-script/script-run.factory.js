@@ -10,6 +10,7 @@
       this.nextIndex = 0;
       this.playing = false;
       this.isInitialized = false;
+      this.timeouts = [];
     }
 
     init(actions) {
@@ -19,7 +20,7 @@
     }
 
     iterate() {
-      if (!this.playing && !this.isInitialized) {
+      if (!this.playing || !this.isInitialized) {
         return Promise.reject();
       }
 
@@ -33,6 +34,11 @@
 
     _executeAction() {
       this.$log.debug(`execute action, nextIndex: ${this.nextIndex}`);
+
+      if (this.nextIndex < 0 || this.nextIndex >= this.actions.length) {
+        return this._stopScript();
+      }
+
       const element = this.actions[this.nextIndex];
 
       if (element.type === 'play') {
@@ -50,10 +56,6 @@
       if (element.type === 'pause') {
         return this._pauseMusic(element);
       }
-
-      // if (element.type === 'stop') {
-      return this._stopScript();
-      // }
     }
 
     _play({ audio, loop }) {
@@ -73,7 +75,12 @@
 
       this.nextIndex++;
 
-      return this.$timeout(() => {}, milli);
+      return new Promise((resolve, reject) => {
+        this.timeouts.push(setTimeout(() => {
+          console.log(`timeout finsiehd`);
+          resolve();
+        }, milli));
+      });
     }
 
     _moveTo({ index, times }) {
@@ -122,6 +129,12 @@
           delete action.audioElement;
         }
       });
+
+      this.timeouts.forEach(timeoutId => {
+        clearTimeout(timeoutId);
+      });
+
+      this.timeouts = [];
 
       return Promise.reject();
     }
