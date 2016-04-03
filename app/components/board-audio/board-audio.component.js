@@ -17,7 +17,7 @@
       editing: 0,
       playing: false,
       keyBackup: null,
-      audio: new Audio(`http://localhost:3000/api/audiodata/${vm.audio.file}/stream`)
+      audio: new Audio(`http://my-soundboard.herokuapp.com/api/audiodata/${vm.audio.file}/stream`)
     };
 
     vm.vars.audio.onended = () => {
